@@ -19,9 +19,8 @@ class Kernel extends ConsoleKernel
 		if ($expression = config('database.reset_cron')) {
 			$schedule
 				->command(FreshCommand::class, [
-					'--database' => 'sqlite',
-					'--seed' => true,
-					'--force' => true,
+					'--seed',
+					'--force',
 				])
 				->cron($expression);
 		}
