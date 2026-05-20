@@ -5,6 +5,9 @@ use Illuminate\Support\Str;
 return [
 	'default' => env('DB_CONNECTION', 'sqlite'),
 	
+	// Used to reset the DB on Laravel Cloud periodically
+	'reset_cron' => env('DB_RESET_CRON', null),
+	
 	'connections' => [
 		
 		'sqlite' => [
