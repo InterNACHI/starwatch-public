@@ -109,5 +109,5 @@
 				built by InterNACHI</a>. All site content resets every hour.
 		</div>
 	@endproduction
-	
+
 @endsection

@@ -12,8 +12,8 @@
 	
 	<div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
 		@forelse ($lodges as $lodge)
-			<a 
-				href="{{ route('lodges::frontend.show', $lodge) }}" 
+			<a
+				href="{{ route('lodges::frontend.show', $lodge) }}"
 				class="card transition group hover:shadow-lg hover:ring-blue-200"
 			>
 				<h2 class="text-lg font-semibold">

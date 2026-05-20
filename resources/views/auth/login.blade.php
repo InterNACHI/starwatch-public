@@ -26,7 +26,7 @@
 				Don't have an account?
 				<a href="{{ route('register') }}" class="font-medium text-indigo-600 hover:text-indigo-500">Register</a>
 			</p>
-			
+		
 		</div>
 	</div>
 @endsection
