@@ -4,7 +4,6 @@ namespace App\Console;
 
 use Illuminate\Console\Scheduling\Schedule;
 use Illuminate\Database\Console\Migrations\FreshCommand;
-use Illuminate\Database\Console\Migrations\MigrateCommand;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
@@ -18,10 +17,7 @@ class Kernel extends ConsoleKernel
 	{
 		if ($expression = config('database.reset_cron')) {
 			$schedule
-				->command(FreshCommand::class, [
-					'--seed',
-					'--force',
-				])
+				->command(FreshCommand::class, ['--seed', '--force'])
 				->cron($expression);
 		}
 	}

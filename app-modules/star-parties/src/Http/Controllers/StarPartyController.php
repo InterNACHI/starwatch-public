@@ -28,19 +28,19 @@ class StarPartyController extends Controller
 	{
 		return view('star-parties::create', ['lodge' => $lodge]);
 	}
-
+	
 	public function store(StoreStarPartyRequest $request, Lodge $lodge)
 	{
 		$party = $lodge->parties()->create($request->validated());
-
+		
 		return to_route('star-parties::frontend.party.show', [$party->lodge, $party])
 			->with('status', 'Star party created.');
 	}
-
+	
 	public function show(Lodge $lodge, StarParty $party)
 	{
 		$party->load('lodge');
-
+		
 		return view('star-parties::show', [
 			'party' => $party,
 			'confirmed_count' => $party->confirmed_rsvps()->count(),
