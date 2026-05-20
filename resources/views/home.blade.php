@@ -3,6 +3,7 @@
 @section('title', 'Welcome — StarWatch Collective')
 
 @section('content')
+	
 	<section class="relative isolate overflow-hidden rounded-2xl bg-slate-950 p-10 text-slate-100 shadow-xl ring-1 ring-white/10 sm:p-14">
 		<div
 			class="absolute inset-0 -z-10 bg-[radial-gradient(ellipse_at_top_right,theme(colors.indigo.700/40),transparent_55%),radial-gradient(ellipse_at_bottom_left,theme(colors.blue.900/35),transparent_60%)]"
@@ -101,4 +102,12 @@
 			</div>
 		</div>
 	</section>
+	
+	@production
+		<div class="mt-12 rounded-md bg-emerald-50 px-4 py-3 text-sm text-emerald-700 ring-1 ring-emerald-200">
+			<strong>Please note:</strong> StarWatch is <a href="https://github.com/InterNACHI/starwatch-public" class="underline hover:text-emerald-900">a demo app
+				built by InterNACHI</a>. All site content resets every hour.
+		</div>
+	@endproduction
+	
 @endsection

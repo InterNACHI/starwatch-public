@@ -21,6 +21,7 @@ class Kernel extends ConsoleKernel
 				->command(FreshCommand::class, [
 					'--database' => 'sqlite',
 					'--seed' => true,
+					'--force' => true,
 				])
 				->cron($expression);
 		}
