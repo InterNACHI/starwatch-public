@@ -1,0 +1,24 @@
+{
+  "name": "starwatch/star-parties",
+  "description": "",
+  "type": "library",
+  "version": "1.0",
+  "license": "proprietary",
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "StarWatch\\StarParties\\": "src/",
+      "StarWatch\\StarParties\\Tests\\": "tests/",
+      "StarWatch\\StarParties\\Database\\Factories\\": "database/factories/",
+      "StarWatch\\StarParties\\Database\\Seeders\\": "database/seeders/"
+    }
+  },
+  "minimum-stability": "stable",
+  "extra": {
+    "laravel": {
+      "providers": [
+        "StarWatch\\StarParties\\Providers\\StarPartiesServiceProvider"
+      ]
+    }
+  }
+}

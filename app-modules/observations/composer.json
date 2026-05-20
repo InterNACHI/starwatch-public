@@ -1,0 +1,24 @@
+{
+  "name": "starwatch/observations",
+  "description": "",
+  "type": "library",
+  "version": "1.0",
+  "license": "proprietary",
+  "require": {},
+  "autoload": {
+    "psr-4": {
+      "StarWatch\\Observations\\": "src/",
+      "StarWatch\\Observations\\Tests\\": "tests/",
+      "StarWatch\\Observations\\Database\\Factories\\": "database/factories/",
+      "StarWatch\\Observations\\Database\\Seeders\\": "database/seeders/"
+    }
+  },
+  "minimum-stability": "stable",
+  "extra": {
+    "laravel": {
+      "providers": [
+        "StarWatch\\Observations\\Providers\\ObservationsServiceProvider"
+      ]
+    }
+  }
+}
