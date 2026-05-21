@@ -12,18 +12,32 @@ final class WaitlistEntry extends Model
 
     protected $guarded = [];
 
+    /**
+     * The star party this waitlist entry is queued against.
+     *
+     * @return BelongsTo
+     */
     public function starParty(): BelongsTo
     {
         return $this->belongsTo(StarParty::class);
     }
 
+    /**
+     * The user waiting on a seat.
+     *
+     * @return BelongsTo
+     */
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
     }
 
     /**
-     * The entry's 1-based position in the party's waitlist queue.
+     * Calculate this entry's 1-based position in the star party's
+     * waitlist queue. Ordering is determined by primary key, which
+     * reflects insertion order.
+     *
+     * @return int
      */
     public function position(): int
     {

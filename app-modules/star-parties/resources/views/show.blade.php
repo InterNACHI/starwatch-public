@@ -43,13 +43,16 @@
 						<p class="mb-3 text-sm font-medium text-amber-700">
 							You're #{{ $user_waitlist_entry->position() }} on the waitlist.
 						</p>
-						{{ Aire::open()->route('star-parties::my.party.waitlist.destroy', [$party->lodge, $party, $user_waitlist_entry])->method('DELETE') }}
-						{{ Aire::submit('Leave waitlist')->class('btn-secondary') }}
-						{{ Aire::close() }}
+						<form action="{{ route('star-parties::my.party.waitlist.destroy', [$party->lodge, $party, $user_waitlist_entry]) }}" method="POST">
+							@csrf
+							@method('DELETE')
+							<button type="submit" class="btn-secondary">Leave waitlist</button>
+						</form>
 					@elseif($party->isFull())
-						{{ Aire::open()->route('star-parties::my.party.waitlist.store', [$party->lodge, $party])->post() }}
-						{{ Aire::submit('Join waitlist')->class('btn-primary') }}
-						{{ Aire::close() }}
+						<form action="{{ route('star-parties::my.party.waitlist.store', [$party->lodge, $party]) }}" method="POST">
+							@csrf
+							<button type="submit" class="btn-primary">Join waitlist</button>
+						</form>
 					@else
 						{{ Aire::open()->route('star-parties::my.party.rsvp.store', [$party->lodge, $party])->post() }}
 						{{ Aire::submit('RSVP')->class('btn-primary') }}

@@ -5,6 +5,11 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class() extends Migration {
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
     public function up(): void
     {
         Schema::create('waitlist_entries', function(Blueprint $table) {
@@ -16,10 +21,5 @@ return new class() extends Migration {
             $table->unique(['star_party_id', 'user_id']);
             $table->index(['star_party_id', 'created_at']);
         });
-    }
-
-    public function down(): void
-    {
-        Schema::dropIfExists('waitlist_entries');
     }
 };

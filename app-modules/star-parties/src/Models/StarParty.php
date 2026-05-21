@@ -39,6 +39,11 @@ class StarParty extends Model
 		return $this->rsvps()->where('status', RsvpStatus::Confirmed);
 	}
 	
+	/**
+	 * The members queued up on this party's waitlist.
+	 *
+	 * @return HasMany
+	 */
 	public function waitlistEntries(): HasMany
 	{
 		return $this->hasMany(WaitlistEntry::class);
