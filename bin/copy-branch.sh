@@ -1,9 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+echo ""
+
 if [ $# -ne 5 ]; then
   echo "Usage: $0 <source-repo> <target-repo> <source-branch-name> <target-branch-name> <commit-msg>"
   echo "Example: $0 InterNACHI/starwatch-public you/starwatch-2026-jane-doe feature-branch jane-doe-feature 'New feature'"
+  echo ""
   exit 1
 fi
 
@@ -37,4 +40,6 @@ git -C "$TMPDIR/target" push origin "$TARGET_BRANCH_NAME"
 rm -f "$PATCH"
 rm -rf "$TMPDIR"
 
+echo ""
 echo "✅ Branch '${TARGET_BRANCH_NAME}' pushed to ${TARGET_REPO}"
+echo ""

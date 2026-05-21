@@ -7,11 +7,14 @@ ORG="inxilpro"
 REVIEWERS=("bogdankharchenko" "skylerkatz")
 YEAR=$(date +%Y)
 
+echo ""
+
 # Pass candidate names as arguments, e.g.:
 # ./setup-challenge.sh jane-doe john-smith
 if [ $# -eq 0 ]; then
   echo "Usage: $0 <candidate-name> [candidate-name ...]"
   echo "Example: $0 jane-doe john-smith"
+  echo ""
   exit 1
 fi
 
@@ -54,3 +57,4 @@ rm -rf "$TMPDIR"
 
 echo ""
 echo "Done! All candidate repos created."
+echo ""

@@ -34,13 +34,13 @@
 				@auth
 					@if($user_rsvp)
 						<p class="mb-3 text-sm font-medium text-emerald-700">
-							You're {{ $user_rsvp->status->value }} for this event.
+							You're {{ $user_rsvp->status->label() }} for this event.
 						</p>
-						{{ Aire::open()->route('star-parties::my.party.rsvp.destroy', [$party->lodge, $party, $user_rsvp])->method('DELETE') }}
+						{{ Aire::route('star-parties::my.party.rsvp.destroy', [$party->lodge, $party, $user_rsvp]) }}
 						{{ Aire::submit('Cancel RSVP')->class('btn-secondary') }}
 						{{ Aire::close() }}
 					@else
-						{{ Aire::open()->route('star-parties::my.party.rsvp.store', [$party->lodge, $party])->post() }}
+						{{ Aire::route('star-parties::my.party.rsvp.store', [$party->lodge, $party]) }}
 						{{ Aire::submit($party->isFull() ? 'Event full' : 'RSVP')
 							->class($party->isFull() ? 'btn-secondary opacity-60' : 'btn-primary')
 							->disabled($party->isFull()) }}

@@ -21,7 +21,7 @@ class RsvpFlowTest extends DatabaseTestCase
 		$this->assertDatabaseHas(StarPartyRsvp::class, [
 			'star_party_id' => $party->getKey(),
 			'user_id' => $user->getKey(),
-			'status' => RsvpStatus::Confirmed->value,
+			'status' => RsvpStatus::Confirmed,
 		]);
 	}
 	
