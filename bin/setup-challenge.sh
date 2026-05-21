@@ -14,9 +14,9 @@ if [ $# -eq 0 ]; then
   exit 1
 fi
 
-# ---- Clone source once ----
+# ---- Clone source once (main only, single commit) ----
 TMPDIR=$(mktemp -d)
-git clone --bare "$SOURCE_REPO" "$TMPDIR/starwatch.git"
+git clone --single-branch --branch main --depth 1 "$SOURCE_REPO" "$TMPDIR/starwatch"
 
 for CANDIDATE in "$@"; do
   REPO_NAME="starwatch-${YEAR}-${CANDIDATE}"
@@ -27,8 +27,8 @@ for CANDIDATE in "$@"; do
   # Create private repo
   gh repo create "$FULL_REPO" --private
 
-  # Push mirror
-  git -C "$TMPDIR/starwatch.git" push --mirror "https://github.com/${FULL_REPO}.git"
+  # Push main branch only
+  git -C "$TMPDIR/starwatch" push "git@github.com:${FULL_REPO}.git" main
 
   # Add candidate as collaborator (assumes GH username matches candidate name)
   # Update this if their GH username differs
