@@ -32,7 +32,7 @@ final class WaitlistPolicy
         }
 
         $existing = $party->waitlistEntries()
-            ->where('user_id', $user->getKey())
+            ->where('user_id', $user->id)
             ->where('status', 'waiting')
             ->exists();
 
@@ -49,7 +49,7 @@ final class WaitlistPolicy
      */
     public function leave(User $user, WaitlistEntry $entry): bool
     {
-        return $entry->user_id === $user->getKey()
+        return $entry->user_id === $user->id
             && $entry->status->value === 'waiting';
     }
 }

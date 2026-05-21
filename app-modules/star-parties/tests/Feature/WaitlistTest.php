@@ -41,15 +41,15 @@ final class WaitlistTest extends DatabaseTestCase
             ->assertRedirect(route('star-parties::frontend.party.show', [$party->lodge, $party]));
 
         $this->assertDatabaseHas(WaitlistEntry::class, [
-            'star_party_id' => $party->getKey(),
-            'user_id' => $user->getKey(),
+            'star_party_id' => $party->id,
+            'user_id' => $user->id,
             'position' => 1,
             'status' => WaitlistEntryStatus::Waiting->value,
         ]);
 
         Event::assertDispatched(MemberJoinedWaitlist::class, function(MemberJoinedWaitlist $event) use ($user, $party) {
-            return $event->entry->user_id === $user->getKey()
-                && $event->entry->star_party_id === $party->getKey();
+            return $event->entry->user_id === $user->id
+                && $event->entry->star_party_id === $party->id;
         });
     }
 
@@ -101,14 +101,14 @@ final class WaitlistTest extends DatabaseTestCase
             ->assertRedirect(route('star-parties::frontend.party.show', [$party->lodge, $party]));
 
         $this->assertDatabaseHas(StarPartyRsvp::class, [
-            'star_party_id' => $party->getKey(),
-            'user_id' => $waitingUser->getKey(),
+            'star_party_id' => $party->id,
+            'user_id' => $waitingUser->id,
             'status' => RsvpStatus::Confirmed->value,
         ]);
 
         $this->assertDatabaseHas(WaitlistEntry::class, [
-            'star_party_id' => $party->getKey(),
-            'user_id' => $waitingUser->getKey(),
+            'star_party_id' => $party->id,
+            'user_id' => $waitingUser->id,
             'status' => WaitlistEntryStatus::Promoted->value,
         ]);
 

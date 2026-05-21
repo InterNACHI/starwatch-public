@@ -54,11 +54,22 @@ class StarParty extends Model
 		return $this->rsvps()->where('user_id', $user_id)->exists();
 	}
 
+	/**
+	 * All waitlist entries (waiting, promoted, and cancelled) for
+	 * this party.
+	 *
+	 * @return HasMany
+	 */
 	public function waitlistEntries(): HasMany
 	{
 		return $this->hasMany(WaitlistEntry::class);
 	}
 
+	/**
+	 * Count the entries currently waiting on this party's waitlist.
+	 *
+	 * @return int
+	 */
 	public function getWaitlistCount(): int
 	{
 		return $this->waitlistEntries()

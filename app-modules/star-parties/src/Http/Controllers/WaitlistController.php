@@ -13,6 +13,10 @@ use StarWatch\StarParties\Services\WaitlistService;
 
 final class WaitlistController extends Controller
 {
+    /**
+     * @param  WaitlistService  $service
+     * @return void
+     */
     public function __construct(
         private readonly WaitlistService $service,
     ) {
@@ -32,7 +36,8 @@ final class WaitlistController extends Controller
         $entry = $this->service->addToWaitlist($party, $user);
         $position = $this->service->getPosition($entry);
 
-        return to_route('star-parties::frontend.party.show', [$party->lodge, $party])
+        return redirect()
+            ->route('star-parties::frontend.party.show', [$party->lodge, $party])
             ->with('status', "You're #{$position} on the waitlist.");
     }
 
@@ -49,7 +54,8 @@ final class WaitlistController extends Controller
     {
         $this->service->removeFromWaitlist($entry);
 
-        return to_route('star-parties::frontend.party.show', [$party->lodge, $party])
+        return redirect()
+            ->route('star-parties::frontend.party.show', [$party->lodge, $party])
             ->with('status', 'You have left the waitlist.');
     }
 }

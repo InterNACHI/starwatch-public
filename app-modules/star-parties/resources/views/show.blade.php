@@ -40,9 +40,13 @@
 						<p class="mb-3 text-sm font-medium text-emerald-700">
 							You're {{ $user_rsvp->status->value }} for this event.
 						</p>
-						{{ Aire::open()->route('star-parties::my.party.rsvp.destroy', [$party->lodge, $party, $user_rsvp])->method('DELETE') }}
-						{{ Aire::submit('Cancel RSVP')->class('btn-secondary') }}
-						{{ Aire::close() }}
+						<form action="{{ route('star-parties::my.party.rsvp.destroy', [$party->lodge, $party, $user_rsvp]) }}" method="POST">
+							@csrf
+							@method('DELETE')
+							<button type="submit" class="btn btn-secondary">
+								Cancel RSVP
+							</button>
+						</form>
 					@elseif($user_waitlist_entry && $user_waitlist_entry->status->value === 'waiting')
 						<p class="mb-3 text-sm font-medium text-amber-700">
 							You're #{{ $waitlist_service->getPosition($user_waitlist_entry) }} on the waitlist.
@@ -62,9 +66,12 @@
 							</button>
 						</form>
 					@else
-						{{ Aire::open()->route('star-parties::my.party.rsvp.store', [$party->lodge, $party])->post() }}
-						{{ Aire::submit('RSVP')->class('btn-primary') }}
-						{{ Aire::close() }}
+						<form action="{{ route('star-parties::my.party.rsvp.store', [$party->lodge, $party]) }}" method="POST">
+							@csrf
+							<button type="submit" class="btn btn-primary">
+								RSVP
+							</button>
+						</form>
 					@endif
 				@else
 					<a href="{{ route('login') }}" class="btn-primary">Log in to RSVP</a>

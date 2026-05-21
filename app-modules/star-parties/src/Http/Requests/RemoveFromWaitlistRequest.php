@@ -22,7 +22,7 @@ final class RemoveFromWaitlistRequest extends FormRequest
             return false;
         }
 
-        if ($party !== null && $entry->star_party_id !== $party->getKey()) {
+        if ($party !== null && $entry->star_party_id !== $party->id) {
             return false;
         }
 
@@ -30,6 +30,9 @@ final class RemoveFromWaitlistRequest extends FormRequest
     }
 
     /**
+     * Leaving the waitlist takes no input beyond the route's bound
+     * models, so this rule set is intentionally empty.
+     *
      * @return array<string, mixed>
      */
     public function rules(): array

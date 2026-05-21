@@ -13,6 +13,8 @@ final class WaitlistEntryFactory extends Factory
     protected $model = WaitlistEntry::class;
 
     /**
+     * Default attributes for a newly-built waitlist entry.
+     *
      * @return array<string, mixed>
      */
     public function definition(): array

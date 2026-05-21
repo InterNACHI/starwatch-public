@@ -25,10 +25,20 @@ class StarPartiesServiceProvider extends ServiceProvider
         ],
     ];
 
+    /**
+     * Register container bindings. Nothing custom is needed here yet.
+     *
+     * @return void
+     */
     public function register(): void
     {
     }
 
+    /**
+     * Wire up the RSVP observer and the explicit event/listener map.
+     *
+     * @return void
+     */
     public function boot(): void
     {
         StarPartyRsvp::observe(StarPartyRsvpObserver::class);

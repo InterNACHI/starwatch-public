@@ -11,6 +11,11 @@ final class WaitlistEntry extends Model
 {
     protected $table = 'waitlist_entries';
 
+    /**
+     * Eloquent attribute casts for this model.
+     *
+     * @return array<string, string>
+     */
     protected function casts(): array
     {
         return [

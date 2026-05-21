@@ -25,6 +25,9 @@ final class AddToWaitlistRequest extends FormRequest
     }
 
     /**
+     * Joining the waitlist is a side-effect-only action, so there
+     * are no request-body fields to validate.
+     *
      * @return array<string, mixed>
      */
     public function rules(): array

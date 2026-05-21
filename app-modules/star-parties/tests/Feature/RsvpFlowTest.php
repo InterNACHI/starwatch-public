@@ -25,7 +25,8 @@ class RsvpFlowTest extends DatabaseTestCase
 		]);
 	}
 	
-	public function test_rsvp_redirects_to_the_waitlist_when_the_party_is_at_capacity(): void
+	/** @test */
+	public function itRedirectsToTheWaitlistWhenTheStarPartyIsAtCapacity(): void
 	{
 		$this->login();
 		$party = StarParty::factory()->create(['capacity' => 2]);

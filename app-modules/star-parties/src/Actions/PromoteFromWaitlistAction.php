@@ -8,6 +8,10 @@ use StarWatch\StarParties\Services\WaitlistService;
 
 final class PromoteFromWaitlistAction
 {
+    /**
+     * @param  WaitlistService  $service
+     * @return void
+     */
     public function __construct(
         private readonly WaitlistService $service,
     ) {

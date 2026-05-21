@@ -3,7 +3,6 @@
 namespace StarWatch\StarParties\Services;
 
 use App\User;
-use Illuminate\Support\Facades\DB;
 use StarWatch\StarParties\Enums\RsvpStatus;
 use StarWatch\StarParties\Enums\WaitlistEntryStatus;
 use StarWatch\StarParties\Events\MemberJoinedWaitlist;
@@ -15,6 +14,10 @@ use StarWatch\StarParties\Repositories\WaitlistRepository;
 
 final class WaitlistService
 {
+    /**
+     * @param  WaitlistRepository  $repository
+     * @return void
+     */
     public function __construct(
         private readonly WaitlistRepository $repository,
     ) {
@@ -30,7 +33,7 @@ final class WaitlistService
      */
     public function addToWaitlist(StarParty $party, User $user): WaitlistEntry
     {
-        $existing = $this->repository->findByPartyAndUser($party, $user->getKey());
+        $existing = $this->repository->findByPartyAndUser($party, $user->id);
 
         if ($existing !== null) {
             return $existing;
@@ -39,8 +42,8 @@ final class WaitlistService
         $nextPosition = $this->repository->countWaiting($party) + 1;
 
         $entry = new WaitlistEntry();
-        $entry->star_party_id = $party->getKey();
-        $entry->user_id = $user->getKey();
+        $entry->star_party_id = $party->id;
+        $entry->user_id = $user->id;
         $entry->position = $nextPosition;
         $entry->status = WaitlistEntryStatus::Waiting;
         $entry->joined_at = now();
@@ -78,27 +81,25 @@ final class WaitlistService
      */
     public function promoteNext(StarParty $party): ?StarPartyRsvp
     {
-        return DB::transaction(function() use ($party) {
-            $next = $this->repository->findNextWaiting($party);
+        $next = $this->repository->findNextWaiting($party);
 
-            if ($next === null) {
-                return null;
-            }
+        if ($next === null) {
+            return null;
+        }
 
-            $rsvp = $party->rsvps()->firstOrCreate(
-                ['user_id' => $next->user_id],
-                ['status' => RsvpStatus::Confirmed],
-            );
+        $rsvp = $party->rsvps()->firstOrCreate(
+            ['user_id' => $next->user_id],
+            ['status' => RsvpStatus::Confirmed],
+        );
 
-            $next->status = WaitlistEntryStatus::Promoted;
-            $next->save();
+        $next->status = WaitlistEntryStatus::Promoted;
+        $next->save();
 
-            MemberPromotedFromWaitlist::dispatch($next);
+        MemberPromotedFromWaitlist::dispatch($next);
 
-            $this->resequencePositions($party);
+        $this->resequencePositions($party);
 
-            return $rsvp;
-        });
+        return $rsvp;
     }
 
     /**
@@ -124,7 +125,7 @@ final class WaitlistService
     public function resequencePositions(StarParty $party): void
     {
         $waiting = WaitlistEntry::query()
-            ->where('star_party_id', $party->getKey())
+            ->where('star_party_id', $party->id)
             ->where('status', WaitlistEntryStatus::Waiting)
             ->orderBy('joined_at')
             ->orderBy('id')

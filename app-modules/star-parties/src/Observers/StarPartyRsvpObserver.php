@@ -7,6 +7,10 @@ use StarWatch\StarParties\Models\StarPartyRsvp;
 
 final class StarPartyRsvpObserver
 {
+    /**
+     * @param  PromoteFromWaitlistAction  $promote
+     * @return void
+     */
     public function __construct(
         private readonly PromoteFromWaitlistAction $promote,
     ) {

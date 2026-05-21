@@ -18,7 +18,7 @@ final class WaitlistRepository
     public function findNextWaiting(StarParty $party): ?WaitlistEntry
     {
         return WaitlistEntry::query()
-            ->where('star_party_id', $party->getKey())
+            ->where('star_party_id', $party->id)
             ->where('status', WaitlistEntryStatus::Waiting)
             ->orderBy('position')
             ->first();
@@ -34,7 +34,7 @@ final class WaitlistRepository
     public function findByPartyAndUser(StarParty $party, int $userId): ?WaitlistEntry
     {
         return WaitlistEntry::query()
-            ->where('star_party_id', $party->getKey())
+            ->where('star_party_id', $party->id)
             ->where('user_id', $userId)
             ->first();
     }
@@ -48,7 +48,7 @@ final class WaitlistRepository
     public function listWaitingForParty(StarParty $party): Collection
     {
         return WaitlistEntry::query()
-            ->where('star_party_id', $party->getKey())
+            ->where('star_party_id', $party->id)
             ->where('status', WaitlistEntryStatus::Waiting)
             ->orderBy('position')
             ->get();
@@ -63,7 +63,7 @@ final class WaitlistRepository
     public function countWaiting(StarParty $party): int
     {
         return WaitlistEntry::query()
-            ->where('star_party_id', $party->getKey())
+            ->where('star_party_id', $party->id)
             ->where('status', WaitlistEntryStatus::Waiting)
             ->count();
     }

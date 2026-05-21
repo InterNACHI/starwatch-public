@@ -20,7 +20,7 @@ final class LogPromotion
         Log::info('Member promoted from waitlist', [
             'star_party_id' => $entry->star_party_id,
             'user_id' => $entry->user_id,
-            'waitlist_entry_id' => $entry->getKey(),
+            'waitlist_entry_id' => $entry->id,
         ]);
     }
 }
