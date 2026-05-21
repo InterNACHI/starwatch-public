@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use StarWatch\Lodges\Models\Lodge;
 use StarWatch\StarParties\Enums\RsvpStatus;
+use StarWatch\StarParties\Enums\WaitlistEntryStatus;
 
 class StarParty extends Model
 {
@@ -49,7 +50,19 @@ class StarParty extends Model
 		if ($user_id instanceof User) {
 			$user_id = $user_id->getKey();
 		}
-		
+
 		return $this->rsvps()->where('user_id', $user_id)->exists();
+	}
+
+	public function waitlistEntries(): HasMany
+	{
+		return $this->hasMany(WaitlistEntry::class);
+	}
+
+	public function getWaitlistCount(): int
+	{
+		return $this->waitlistEntries()
+			->where('status', WaitlistEntryStatus::Waiting)
+			->count();
 	}
 }

@@ -72,6 +72,9 @@
 								{{ $party->scheduled_at->format('M j, Y · g:ia') }} —
 								{{ $party->confirmed_count }}/{{ $party->capacity }} confirmed
 							</p>
+							<p class="text-slate-500">
+								Waitlist: {{ $party->getWaitlistCount() }}
+							</p>
 						</a>
 					</li>
 				@empty

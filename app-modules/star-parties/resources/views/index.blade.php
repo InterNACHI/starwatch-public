@@ -28,6 +28,9 @@
 				<p class="mt-3 text-xs uppercase tracking-wide text-slate-400">
 					{{ $party->confirmed_count }}/{{ $party->capacity }} confirmed
 				</p>
+				<p class="mt-1 text-xs uppercase tracking-wide text-slate-400">
+					Waitlist: {{ $party->getWaitlistCount() }}
+				</p>
 			</a>
 		@empty
 			<p class="text-slate-500">Nothing scheduled yet.</p>

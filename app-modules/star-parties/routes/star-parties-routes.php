@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use StarWatch\StarParties\Http\Controllers\StarPartyController;
 use StarWatch\StarParties\Http\Controllers\StarPartyRsvpController;
+use StarWatch\StarParties\Http\Controllers\WaitlistController;
 use StarWatch\StarParties\Models\StarParty;
 use StarWatch\StarParties\Models\StarPartyRsvp;
 
@@ -47,4 +48,10 @@ Route::middleware(['web', 'auth'])
 		Route::delete('/{party}/rsvp/{rsvp}', [StarPartyRsvpController::class, 'destroy'])
 			->name('rsvp.destroy')
 			->can('delete', 'rsvp');
+
+		Route::post('/{party}/waitlist', [WaitlistController::class, 'store'])
+			->name('waitlist.store');
+		Route::delete('/{party}/waitlist/{entry}', [WaitlistController::class, 'destroy'])
+			->name('waitlist.destroy')
+			->withoutScopedBindings();
 	});

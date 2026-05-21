@@ -30,6 +30,10 @@
 				@endif
 			</p>
 			
+			<p class="mt-1 text-xs uppercase tracking-wide text-slate-400">
+				Waitlist: {{ $party->getWaitlistCount() }}
+			</p>
+
 			<div class="mt-6">
 				@auth
 					@if($user_rsvp)
@@ -39,11 +43,27 @@
 						{{ Aire::open()->route('star-parties::my.party.rsvp.destroy', [$party->lodge, $party, $user_rsvp])->method('DELETE') }}
 						{{ Aire::submit('Cancel RSVP')->class('btn-secondary') }}
 						{{ Aire::close() }}
+					@elseif($user_waitlist_entry && $user_waitlist_entry->status->value === 'waiting')
+						<p class="mb-3 text-sm font-medium text-amber-700">
+							You're #{{ $waitlist_service->getPosition($user_waitlist_entry) }} on the waitlist.
+						</p>
+						<form action="{{ route('star-parties::my.party.waitlist.destroy', [$party->lodge, $party, $user_waitlist_entry]) }}" method="POST">
+							@csrf
+							@method('DELETE')
+							<button type="submit" class="btn btn-secondary">
+								Leave the waitlist
+							</button>
+						</form>
+					@elseif($party->isFull())
+						<form action="{{ route('star-parties::my.party.waitlist.store', [$party->lodge, $party]) }}" method="POST">
+							@csrf
+							<button type="submit" class="btn btn-primary">
+								Join the waitlist
+							</button>
+						</form>
 					@else
 						{{ Aire::open()->route('star-parties::my.party.rsvp.store', [$party->lodge, $party])->post() }}
-						{{ Aire::submit($party->isFull() ? 'Event full' : 'RSVP')
-							->class($party->isFull() ? 'btn-secondary opacity-60' : 'btn-primary')
-							->disabled($party->isFull()) }}
+						{{ Aire::submit('RSVP')->class('btn-primary') }}
 						{{ Aire::close() }}
 					@endif
 				@else

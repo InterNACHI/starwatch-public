@@ -9,6 +9,7 @@ use StarWatch\StarParties\Enums\RsvpStatus;
 use StarWatch\StarParties\Http\Requests\StoreStarPartyRequest;
 use StarWatch\StarParties\Http\Requests\UpdateStarPartyRequest;
 use StarWatch\StarParties\Models\StarParty;
+use StarWatch\StarParties\Services\WaitlistService;
 
 class StarPartyController extends Controller
 {
@@ -37,16 +38,26 @@ class StarPartyController extends Controller
 			->with('status', 'Star party created.');
 	}
 	
-	public function show(Lodge $lodge, StarParty $party)
+	public function show(Lodge $lodge, StarParty $party, WaitlistService $waitlistService)
 	{
 		$party->load('lodge');
-		
+
+		$userId = Auth::id();
+
+		$userRsvp = $userId !== null
+			? $party->rsvps()->where('user_id', $userId)->first()
+			: null;
+
+		$userWaitlistEntry = $userId !== null
+			? $party->waitlistEntries()->where('user_id', $userId)->first()
+			: null;
+
 		return view('star-parties::show', [
 			'party' => $party,
 			'confirmed_count' => $party->confirmed_rsvps()->count(),
-			'user_rsvp' => Auth::check()
-				? $party->rsvps()->where('user_id', Auth::id())->first()
-				: null,
+			'user_rsvp' => $userRsvp,
+			'user_waitlist_entry' => $userWaitlistEntry,
+			'waitlist_service' => $waitlistService,
 		]);
 	}
 	

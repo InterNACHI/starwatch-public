@@ -9,8 +9,10 @@ use StarWatch\Observations\Models\Observation;
 use StarWatch\Observations\Policies\ObservationPolicy;
 use StarWatch\StarParties\Models\StarParty;
 use StarWatch\StarParties\Models\StarPartyRsvp;
+use StarWatch\StarParties\Models\WaitlistEntry;
 use StarWatch\StarParties\Policies\StarPartyPolicy;
 use StarWatch\StarParties\Policies\StarPartyRsvpPolicy;
+use StarWatch\StarParties\Policies\WaitlistPolicy;
 
 class AuthServiceProvider extends ServiceProvider
 {
@@ -19,5 +21,6 @@ class AuthServiceProvider extends ServiceProvider
 		Observation::class => ObservationPolicy::class,
 		StarParty::class => StarPartyPolicy::class,
 		StarPartyRsvp::class => StarPartyRsvpPolicy::class,
+		WaitlistEntry::class => WaitlistPolicy::class,
 	];
 }

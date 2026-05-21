@@ -25,16 +25,15 @@ class RsvpFlowTest extends DatabaseTestCase
 		]);
 	}
 	
-	public function test_rsvp_is_rejected_when_the_party_is_at_capacity(): void
+	public function test_rsvp_redirects_to_the_waitlist_when_the_party_is_at_capacity(): void
 	{
 		$this->login();
 		$party = StarParty::factory()->create(['capacity' => 2]);
 		StarPartyRsvp::factory()->count(2)->for($party, 'star_party')->confirmed()->create();
-		
+
 		$this->post(route('star-parties::my.party.rsvp.store', [$party->lodge, $party]))
-			->assertRedirect(route('star-parties::frontend.party.show', [$party->lodge, $party]))
-			->assertSessionHas('error', 'This star party is at capacity.');
-		
+			->assertRedirect(route('star-parties::my.party.waitlist.store', [$party->lodge, $party]));
+
 		$this->assertDatabaseCount(StarPartyRsvp::class, 2);
 	}
 	
