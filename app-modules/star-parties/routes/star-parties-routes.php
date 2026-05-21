@@ -3,8 +3,10 @@
 use Illuminate\Support\Facades\Route;
 use StarWatch\StarParties\Http\Controllers\StarPartyController;
 use StarWatch\StarParties\Http\Controllers\StarPartyRsvpController;
+use StarWatch\StarParties\Http\Controllers\WaitlistController;
 use StarWatch\StarParties\Models\StarParty;
 use StarWatch\StarParties\Models\StarPartyRsvp;
+use StarWatch\StarParties\Models\WaitlistEntry;
 
 Route::middleware('web')
 	->name('star-parties::frontend.party.')
@@ -47,4 +49,11 @@ Route::middleware(['web', 'auth'])
 		Route::delete('/{party}/rsvp/{rsvp}', [StarPartyRsvpController::class, 'destroy'])
 			->name('rsvp.destroy')
 			->can('delete', 'rsvp');
+		
+		Route::post('/{party}/waitlist', [WaitlistController::class, 'store'])
+			->name('waitlist.store')
+			->can('create', [WaitlistEntry::class, 'party']);
+		Route::delete('/{party}/waitlist/{waitlist_entry}', [WaitlistController::class, 'destroy'])
+			->name('waitlist.destroy')
+			->can('delete', 'waitlist_entry');
 	});

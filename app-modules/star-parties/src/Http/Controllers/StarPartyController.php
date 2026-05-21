@@ -47,6 +47,13 @@ class StarPartyController extends Controller
 			'user_rsvp' => Auth::check()
 				? $party->rsvps()->where('user_id', Auth::id())->first()
 				: null,
+			'waitlist' => $party->waitlistEntries()
+				->with('user')
+				->orderBy('id')
+				->get(),
+			'user_waitlist_entry' => Auth::check()
+				? $party->waitlistEntries()->where('user_id', Auth::id())->first()
+				: null,
 		]);
 	}
 	

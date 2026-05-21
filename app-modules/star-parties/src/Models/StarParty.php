@@ -39,6 +39,11 @@ class StarParty extends Model
 		return $this->rsvps()->where('status', RsvpStatus::Confirmed);
 	}
 	
+	public function waitlistEntries(): HasMany
+	{
+		return $this->hasMany(WaitlistEntry::class);
+	}
+	
 	public function isFull(): bool
 	{
 		return $this->confirmed_rsvps()->count() >= $this->capacity;

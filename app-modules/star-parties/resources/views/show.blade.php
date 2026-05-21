@@ -39,17 +39,42 @@
 						{{ Aire::open()->route('star-parties::my.party.rsvp.destroy', [$party->lodge, $party, $user_rsvp])->method('DELETE') }}
 						{{ Aire::submit('Cancel RSVP')->class('btn-secondary') }}
 						{{ Aire::close() }}
+					@elseif($user_waitlist_entry)
+						<p class="mb-3 text-sm font-medium text-amber-700">
+							You're #{{ $user_waitlist_entry->position() }} on the waitlist.
+						</p>
+						{{ Aire::open()->route('star-parties::my.party.waitlist.destroy', [$party->lodge, $party, $user_waitlist_entry])->method('DELETE') }}
+						{{ Aire::submit('Leave waitlist')->class('btn-secondary') }}
+						{{ Aire::close() }}
+					@elseif($party->isFull())
+						{{ Aire::open()->route('star-parties::my.party.waitlist.store', [$party->lodge, $party])->post() }}
+						{{ Aire::submit('Join waitlist')->class('btn-primary') }}
+						{{ Aire::close() }}
 					@else
 						{{ Aire::open()->route('star-parties::my.party.rsvp.store', [$party->lodge, $party])->post() }}
-						{{ Aire::submit($party->isFull() ? 'Event full' : 'RSVP')
-							->class($party->isFull() ? 'btn-secondary opacity-60' : 'btn-primary')
-							->disabled($party->isFull()) }}
+						{{ Aire::submit('RSVP')->class('btn-primary') }}
 						{{ Aire::close() }}
 					@endif
 				@else
 					<a href="{{ route('login') }}" class="btn-primary">Log in to RSVP</a>
 				@endauth
 			</div>
+
+			@can('update', $party)
+				@if($waitlist->isNotEmpty())
+					<div class="mt-8 border-t border-slate-100 pt-6">
+						<h3 class="text-sm font-semibold uppercase tracking-wide text-slate-500">Waitlist ({{ $waitlist->count() }})</h3>
+						<ol class="mt-3 divide-y divide-slate-100 text-sm">
+							@foreach($waitlist as $entry)
+								<li class="flex items-center justify-between py-2">
+									<span>{{ $entry->user->name }}</span>
+									<span class="text-slate-400">#{{ $entry->position() }}</span>
+								</li>
+							@endforeach
+						</ol>
+					</div>
+				@endif
+			@endcan
 		</div>
 		
 		<div class="card">
